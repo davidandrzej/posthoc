@@ -1,0 +1,69 @@
+posthoc - Functions for ML/NLP experiment post-processing and analysis
+David Andrzejewski (david.andrzej@gmail.com)
+
+
+DESCRIPTION
+
+posthoc is a Clojure package containing functions for the detailed
+analysis of ML/NLP experiments (especially latent topic modeling).  In
+order to understand algorithm/model performance, it is often helpful
+(or necessary) to answer detailed (but arbitrary) questions which were
+not considered before running the experiment.  For example, after
+running Latent Dirichlet Allocation, we may wish to inspect word-topic
+associations for a certain term broken out by the co-occurrence of
+some keyword within a 10-token window.  The goal of this package is
+then two-fold:
+
+1) Provide a kit of 'building block' functions which can be assembled
+in order to construct novel analyses.
+
+2) Save especially common/useful specific analyses.
+
+
+LICENSE
+
+This software is open-source, released under the terms of the GNU
+General Public License version 3, or any later version of the GPL (see
+COPYING).
+
+
+SLOPPY/INFORMAL/INCOMPLETE API
+
+fileio.misc
+fileio.parse-labels
+fileio.parse-topics
+fileio.wordcount
+
+annotate-table  
+-if words are positively labeled, print with \textbf{}
+
+annotate-topics
+-are words positively annotated?
+
+best-topics
+-find 'best' standard LDA topics wrt word enrichment
+
+check-excl
+-eval satisfaction of sentence exclusion
+
+check-incl
+-eval satisfaction of sentence inclusion
+
+dependency
+-parse/manipulate/analyze Stanford-style dependency parses 
+
+eval-relevance
+eval-labels
+-eval Top N topic words wrt relevance to target concept
+
+mean-avg-prec
+-mean average precision of a given ranking 
+
+pool-topics
+-take union of Top N concept-topic words from different runs
+
+topicutil
+-data structs and fcns related to topic models
+
+util
+-very general Clojure convenience/utility functions
