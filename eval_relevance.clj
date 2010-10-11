@@ -63,7 +63,7 @@
 ;;       seedfile "seedwords.txt"
 ;;       seeds (parse-word-file seedfile seed-re seedword-re)
 
-;;       irrelevant (values-listmap failures)
+;;       irrelevant (values-vecmap failures)
 ;;       ]
 ;;   (spit (format "%s.ranking" ename) 
 ;;         (with-out-str

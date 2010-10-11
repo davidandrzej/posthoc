@@ -51,7 +51,7 @@
   "First 3 lines just say what concept is, etc"
   [labelfn]
   (let [lines (filter not-blank? (drop 3 (read-lines labelfn)))]    
-    (construct-listmap (map get-word-label lines))))
+    (construct-vecmap (map get-word-label lines))))
 
 ; TESTCODEE
 ;  

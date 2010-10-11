@@ -45,7 +45,7 @@
       seeds (parse-word-file seedfile seed-re seedword-re)
 
       wordhashes (list concepts failures seeds)
-      annotations (apply merge-with concat (map invert-listmap wordhashes))]
+      annotations (apply merge-with concat (map invert-vecmap wordhashes))]
   (doseq [topic (keys topics)]
     (println topic)
     (print (annotated-topic (get topics topic) annotations))))

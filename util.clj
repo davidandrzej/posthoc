@@ -1,6 +1,6 @@
 (comment
 
-Very general convenience/utility functions
+General convenience/utility functions
 
 )
 
@@ -33,23 +33,23 @@ Very general convenience/utility functions
   (not (zero? val)))
 
 ;
-; Often have hash-map where values are lists (listmaps)
+; Fcns for working w/ hash-map where vals are vectors (vecmaps)
 ;
 (defn invert-entry
-  "Helper function for invert-listmap"
-  [lst k]
-  (apply merge (for [item lst] (hash-map item (list k)))))
+  "Helper function for invert-vecmap"
+  [v k]
+  (reduce merge (for [item lst] (hash-map item (vector k)))))
 
-(defn invert-listmap
-  "Given map x-->list of y, return map y-->list of x (s.t. y in x's list)"
-  [listmap]
-  (apply merge-with concat (map #(invert-entry (get listmap %1) %1)
-                                (keys listmap))))
+(defn invert-vecmap
+  "Given map x-->vec of y, return map y-->vec of x (s.t. y in x's vec)"
+  [vecmap]
+  (apply merge-with concat (map #(invert-entry (get vecmap %1) %1)
+                                (keys vecmap))))
 
-(defn values-listmap
-  "Given map x-->list of y, return hash-set of all y"
-  [listmap]
-  (set (apply concat (vals listmap))))
+(defn values-vecmap
+  "Given map x-->vec of y, return hash-set of all y"
+  [vecmap]
+  (set (apply concat (vals vecmap))))
 
 (defn flip-singleton-hash
   "Given singleton hash key->val, return val->(key)"
@@ -57,24 +57,24 @@ Very general convenience/utility functions
   (let [keyct (count (keys h))
         okval (assert (= keyct 1))
         k (first (keys h))]
-    (hash-map (get h k) (list k))))
+    (hash-map (get h k) (vector k))))
 
-(defn construct-listmap
-  "Given seq of singleton word-->label hashmaps, return label-->words listmap"
+(defn construct-vecmap
+  "Given seq of singleton word-->label hashmaps, return label-->words vecmap"
   [hashes]
   (apply merge-with concat (map flip-singleton-hash hashes)))
                                        
-(defn str-listmap-keyval
-  "Convert a single key-list pair to a newline-separated string"
-  [listmap k]
-  (apply str (interpose "\n" (cons k (get listmap k)))))
+(defn str-vecmap-keyval
+  "Convert a single key-vec pair to a newline-separated string"
+  [vecmap k]
+  (apply str (interpose "\n" (cons k (get vecmap k)))))
 
-(defn str-listmap
-  "Convert listmap key-list pairs to nice newline-separated string"
-  ([listmap] ; if no keys supplied, do all keys
-     (str-listmap listmap (keys listmap)))
-  ([listmap ks] ; use supplied keys and ordering
-     (apply str (interpose "\n\n"  (map (partial str-listmap-keyval listmap)
+(defn str-vecmap
+  "Convert vecmap key-vec pairs to nice newline-separated string"
+  ([vecmap] ; if no keys supplied, do all keys
+     (str-vecmap vecmap (keys vecmap)))
+  ([vecmap ks] ; use supplied keys and ordering
+     (apply str (interpose "\n\n"  (map (partial str-vecmap-keyval vecmap)
                                         ks)))))
 
 
@@ -99,7 +99,7 @@ Very general convenience/utility functions
   [vals]
   (if (empty? vals)
     '()
-    (cons (apply list (take 2 vals))
+    (cons (vec (take 2 vals))
 	  (lazy-seq (take-pairs (drop 2 vals))))))
 
 ;
