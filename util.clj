@@ -10,6 +10,14 @@ Very general convenience/utility functions
   (:use [clojure.contrib.string :only (blank?)]))
 
 ;
+; Often have hash-map where keys=items vals=counts
+;
+(defn mfilter 
+  "Do filter on a hash-map by values"
+  [p m]
+  (into (empty m) (filter #(-> %1 (second) (p)) m)))
+
+;
 ; Nice to have these not-X? functions
 ;
 (defn not-nil?
@@ -25,7 +33,7 @@ Very general convenience/utility functions
   (not (zero? val)))
 
 ;
-; We often have hash-map where values are lists (listmaps)
+; Often have hash-map where values are lists (listmaps)
 ;
 (defn invert-entry
   "Helper function for invert-listmap"
@@ -111,7 +119,7 @@ Very general convenience/utility functions
 
       
 ;
-; Misc patterns that get used a lot in my code...
+; Misc patterns that get used a lot...
 ;
 (defn to-lines
   [lst]
