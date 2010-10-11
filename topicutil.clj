@@ -6,7 +6,8 @@
 
 (ns posthoc.topicutil)
 
-; Represents a single corpus index
+; Represents a single corpus index 
+; (todo: convert to defrecord)
 (defstruct idx :sent :topic :word :doc)
 
 ; Regular expressions for parsing out topic text files

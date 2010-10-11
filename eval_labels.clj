@@ -17,11 +17,6 @@
   (:use [posthoc.topicutil])
   (:use [posthoc.util]))
 
-(defn mean [vals] (/ (float (reduce + vals)) (count vals)))
-(defn variance [vals] 
-  (let [m (mean vals)]
-    (mean (map #(sqr (- %1 m)) vals))))
-
 
 (def stdbase "./datasets/standard-%d/hdg.topics")
 (def zlabelbase "./datasets/zlabel-%d/hdg.topics")
@@ -41,11 +36,6 @@
   :map-pos 
   :map-neg)
 
-(defn calc-acc
-  [vals pospred]
-  (/ (double (reduce + (binary-relevance vals pospred))) 
-     (count vals)))
-
 (defn make-topic-report
   "Do a full report of this topic vs these labels"
   [topic labels]
@@ -55,8 +45,8 @@
         seedpred #(contains? (set (get labels :seed)) %1)
         noseed (filter #(not (seedpred %1)) topic)]
     (struct-map topic-report
-      :acc (calc-acc topic pospred)
-      :acc-noseed (calc-acc noseed pospred)
+      :acc (accuracy topic pospred)
+      :acc-noseed (accuracy noseed pospred)
       :map-pos (mean-avg-prec topic pospred)
       :map-neg (mean-avg-prec topic negpred))))
 
@@ -87,10 +77,10 @@
 (defn report-means
   [reports]
   (struct-map topic-report
-    :acc (mean (map :acc reports))
-    :acc-noseed (mean (map :acc-noseed reports))
-    :map-pos (mean (map :map-pos reports))
-    :map-neg (mean (map :map-neg reports))))
+    :acc (arithmetic-mean (map :acc reports))
+    :acc-noseed (arithmetic-mean (map :acc-noseed reports))
+    :map-pos (arithmetic-mean (map :map-pos reports))
+    :map-neg (arithmetic-mean (map :map-neg reports))))
                                                      
 (defn eval-method
   "Evaluate topic-concept agreement over mult seedruns"
