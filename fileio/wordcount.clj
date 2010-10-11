@@ -9,12 +9,9 @@
   (:use [clojure.contrib.duck-streams :only (read-lines file-str 
                                                         append-spit
                                                         write-lines)])
-  (:use [clojure.contrib.seq-utils :only (indexed)])
-  (:use [clojure.contrib.math :only (floor ceil)])
   (:use [clojure.contrib.string :only (split trim blank? lower-case)]))
 
 (def tokModel "./models/EnglishTok.bin.gz")
-(def sdModel "./models/EnglishSD.bin.gz")
 
 (defn wc-line
   "Get lowercased word counts for a single line" 
@@ -44,15 +41,13 @@
          (rest files)
          (merge-with + counts (wc-file tokenizer (first files))))))))
 
-                                      
-(def docfile "test.docs")
 
+; Example usage
+(def docfile "test.docs")
 (let [filenames (read-lines docfile)
       P 10
-      n (int (ceil (/ (count filenames) P)))
-      filegroups (partition n filenames)
-      globalcounts (pmap wc-files filegroups)
-      mcounts (apply merge-with + globalcounts)
-      words (sort-by #(* -1 (get mcounts %1)) (keys mcounts))]
+      filegroups (k-way-partition filenames P)
+      mcounts (reduce (partial merge-with +) (pmap wc-files filegroups))
+      words (reverse (sort-by mcounts (keys mcounts)))]
   (write-lines "counts" 
                (map #(format "%s = %d" %1 (get mcounts %1)) words)))

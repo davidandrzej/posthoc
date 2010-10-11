@@ -5,10 +5,34 @@ General convenience/utility functions
 )
 
 (ns posthoc.util
+  (:use [clojure.contrib.math :only (ceil)])
   (:use [clojure.set :only (intersection)])
   (:use [clojure.contrib.seq-utils :only (indexed)])
   (:use [clojure.contrib.string :only (blank?)]))
 
+;
+; Misc patterns that get used a lot...
+;
+(defn to-lines
+  [lst]
+  (apply str (interpose "\n" lst)))
+
+(defn overlap
+  "Count number of overlapping elements"
+  [s1 s2]
+  (count (intersection (set s1) (set s2))))
+
+(defn k-way-partition
+  "Return a (more or less) even k-way partition of vals"
+  [vals k]
+  (partition (int (ceil (/ (count vals) k))) vals))
+
+(defn print-map
+  "Pretty print hash-map contents"
+  [m]
+  (println (to-lines (map #(format "%s: %s" (str %1) (str (m %1)))
+                          (keys m)))))
+                                   
 ;
 ; Often have hash-map where keys=items vals=counts
 ;
@@ -38,7 +62,7 @@ General convenience/utility functions
 (defn invert-entry
   "Helper function for invert-vecmap"
   [v k]
-  (reduce merge (for [item lst] (hash-map item (vector k)))))
+  (reduce merge (for [item v] (hash-map item (vector k)))))
 
 (defn invert-vecmap
   "Given map x-->vec of y, return map y-->vec of x (s.t. y in x's vec)"
@@ -118,14 +142,3 @@ General convenience/utility functions
                  (range (- (alength jarray) (- (count ngram) 1))))))
 
       
-;
-; Misc patterns that get used a lot...
-;
-(defn to-lines
-  [lst]
-  (apply str (interpose "\n" lst)))
-
-(defn overlap
-  "Count number of overlapping elements"
-  [s1 s2]
-  (count (intersection (set s1) (set s2))))

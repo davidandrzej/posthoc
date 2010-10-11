@@ -51,4 +51,4 @@ Misc file/text/io functions
   "Each line is a sequence of comma separated n-grams"
   [filename]
   (for [line (read-lines filename)]
-    (map tok-trim (split #"," line))))0
+    (map tok-trim (split #"," line))))
