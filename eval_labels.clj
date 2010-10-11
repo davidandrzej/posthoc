@@ -5,6 +5,7 @@
 )
 
 (ns posthoc.eval-labels
+
   (:use [clojure.set])
   (:use [clojure.contrib.duck-streams :only 
          (read-lines append-spit write-lines)])
@@ -13,6 +14,7 @@
   (:use [posthoc.fileio.parse-topics])
   (:use [posthoc.fileio.parse-labels])
   (:use [posthoc.best-topics])
+  (:use [posthoc.topicutil])
   (:use [posthoc.util]))
 
 (defn mean [vals] (/ (float (reduce + vals)) (count vals)))
@@ -20,8 +22,6 @@
   (let [m (mean vals)]
     (mean (map #(sqr (- %1 m)) vals))))
 
-(def topic-re #"(Topic \d+).*")
-(def topicword-re #"(\S+) = [\d\.]+")
 
 (def stdbase "./datasets/standard-%d/hdg.topics")
 (def zlabelbase "./datasets/zlabel-%d/hdg.topics")
@@ -30,8 +30,6 @@
 (def allbase "./datasets/allsent-%d/hdg.topics")
 
 ; Seed word information
-(def seed-re #"(Seed \d+).*")
-(def seedword-re #"(\S+)")
 (def seedfile "./labels/seedwords.txt")
 
 ; New labels

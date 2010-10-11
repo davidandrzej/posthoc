@@ -8,7 +8,7 @@
 (def testranked (range 10))
 (def testrelevancepred even?)
 
-(defn arithmetic-mean [lst] (/ (double (reduce + lst)) (count lst)))
+(defn arithmetic-mean [vals] (/ (double (reduce + vals)) (count vals)))
 
 (defn calc-precision
   "Given binary relevance, precision up to and including position"

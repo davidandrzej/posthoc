@@ -10,10 +10,8 @@
   (:use [posthoc.mean-avg-prec])
   (:use [posthoc.fileio.parse-topics])
   (:use [posthoc.best-topics])
-  (:use [posthoc.util]))
-
-(def topic-re #"(Topic \d+).*")
-(def topicword-re #"(\S+) = [\d\.]+")
+  (:use [posthoc.util])
+  (:use [posthoc.topicutil]))
                           
 (def stdbase "./datasets/standard-%d/hdg.topics")
 (def zlabelbase "./datasets/zlabel-%d/hdg.topics")
@@ -21,9 +19,6 @@
 (def exclbase "./datasets/excl-%d/hdg.topics")
 (def allbase "./datasets/allsent-%d/hdg.topics")
 
-
-(def seed-re #"(Seed \d+).*")
-(def seedword-re #"(\S+)")
 (def seedfile "./labels/seedwords.txt")
 
 (def conceptsfile "./labels/original_concepts.txt")

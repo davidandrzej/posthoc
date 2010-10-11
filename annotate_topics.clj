@@ -4,21 +4,16 @@
 )
 
 (ns posthoc.annotate-topics
+  (:use [posthoc.topicutil])
   (:use [posthoc.mean-avg-prec])
   (:use [posthoc.fileio.parse-topics])
   (:use [posthoc.util]))
-
-(def topic-re #"(Topic \d+).*")
-(def topicword-re #"(\S+) = [\d\.]+")
 
 (def failure-re #"(Failure \d+).*")
 (def failword-re #"(\S+)")
 
 (def concept-re #"(Concept \d+).*")
 (def conceptword-re #"(\S+)")
-
-(def seed-re #"(Seed \d+).*")
-(def seedword-re #"(\S+)")
     
 (defn annotated-word
   "Return str of word along with annotations"

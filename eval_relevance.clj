@@ -5,18 +5,11 @@
 )
 
 (ns posthoc.eval-relevance
+  (:use [posthoc.topicutil])
   (:use [posthoc.mean-avg-prec])
   (:use [posthoc.fileio.parse-topics])
   (:use [posthoc.fileio.parse-labels])
-  (:use [posthoc.util]))
-
-(def topic-re #"(Topic \d+).*")
-(def topicword-re #"(\S+) = [\d\.]+")
-
-(def seed-re #"(Seed \d+).*")
-(def seedword-re #"(\S+)")
-                           
-
+  (:use [posthoc.util]))                          
 
 (defn relevance-report
   [concepts topics seeds irrelevant cidx]
