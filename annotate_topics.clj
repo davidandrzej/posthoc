@@ -28,8 +28,8 @@
 (defn annotated-topic
   "Return str of annotated topic words" 
   [topicwords annotation]
-  (apply str (interpose "\n" (map #(annotated-word annotation %1)
-                                  topicwords))))
+  (to-lines (map #(annotated-word annotation %1) topicwords)))
+		 
                                   
 (let [topicfile "hdg.topics"
       alltopics (parse-word-file topicfile topic-re topicword-re)
