@@ -74,9 +74,8 @@
           seedset (apply hash-set (get seeds (format "Seed %d" topic)))
           annotated (map (partial seed-augment seedset) deduped)]
       (println topicname)
-      (println (apply str (interpose "\n" 
-                                     (map (partial seed-augment seedset)
-                                          (get (first convertedstd) topicname))))))))
+      (println (to-lines (map (partial seed-augment seedset)
+			      (get (first convertedstd) topicname)))))))
 ;      (spit (format "%d.tolabel" topic)
 ;            (format "%s\nConcept seed words: %s\n\n%s" 
 ;                    topicname 

@@ -209,7 +209,7 @@
   ;;   (let [topicname (format "Topic %d" topic)
   ;;         poswords (:pos (nth labels topic))]
   ;;     (println topicname)
-  ;;     (println (apply str (interpose "\n" poswords)))
+  ;;     (println (to-lines poswords))
   ;;     (println))))
                                      
   ;                                   

@@ -67,7 +67,7 @@ General convenience/utility functions
 (defn str-vecmap-keyval
   "Convert a single key-vec pair to a newline-separated string"
   [vecmap k]
-  (apply str (interpose "\n" (cons k (get vecmap k)))))
+  (to-lines (cons k (get vecmap k))))
 
 (defn str-vecmap
   "Convert vecmap key-vec pairs to nice newline-separated string"
