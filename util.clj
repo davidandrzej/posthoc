@@ -13,9 +13,22 @@ General convenience/utility functions
 ;
 ; Misc patterns that get used a lot...
 ;
-(defn to-lines
+
+(defn os-path-split
+  "Mimic Python's os.path.split()[1]" 
+  [f]
+  (. (. f getCanonicalPath) substring
+     (inc (-> f .getParentFile .getCanonicalPath .length))))
+
+(defn to-spaced-line
   [lst]
-  (apply str (interpose "\n" lst)))
+  (apply str (interpose " " lst)))
+
+(defn to-lines
+  ([lst]
+     (apply str (interpose "\n" lst)))
+  ([lst & opt]
+     (apply str (interpose "\n" (cons lst opt)))))
 
 (defn overlap
   "Count number of overlapping elements"
@@ -25,13 +38,17 @@ General convenience/utility functions
 (defn k-way-partition
   "Return a (more or less) even k-way partition of vals"
   [vals k]
-  (partition (int (ceil (/ (count vals) k))) vals))
+  (partition-all (ceil (/ (count vals) k)) vals))
 
-(defn print-map
-  "Pretty print hash-map contents"
+(defn str-map
+  "To pretty print hash-map contents"
   [m]
-  (println (to-lines (map #(format "%s: %s" (str %1) (str (m %1)))
-                          (keys m)))))
+  (to-lines (map #(format "%s: %s" (str %1) (str (m %1)))
+                 (keys m))))
+(defn print-map
+  "Actually pretty-print a hash-map"
+  [m]
+  (println (str-map m)))
                                    
 ;
 ; Often have hash-map where keys=items vals=counts
