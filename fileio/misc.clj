@@ -1,6 +1,6 @@
 (comment
 
-Misc file/text/io functions
+  Misc file/text/io functions
 
 )
 
@@ -11,18 +11,10 @@ Misc file/text/io functions
   (:use [clojure.contrib.string :only (split trim blank?)])
   (:use [posthoc.util]))
 
-(defn read-words
-  "Read a simple file containing one word per line"
-  [filename]
-  (map trim (read-lines filename)))
+;
+; Lazy read a text file full of integers
+;
 
-(defn write-matrix-java 
-  "Assume mat is double[][], write out to filename (one row / line)"
-  [mat filename]
-  (write-lines filename
-               (for [row (seq mat)]
-                 (apply str (interpose " " (map (partial format "%f") 
-                                                (seq row)))))))
 (defn read-int-line
   "Parse single line of space-separated integers" 
   [line]
@@ -30,17 +22,21 @@ Misc file/text/io functions
        (filter not-blank? (split #"\s+" line))))
 
 (defn read-int-lines
-  "Parse lines into seq of integers, lazy on lines"
+  "Lazy helper for read-int-file"
   [lines]
   (if (empty? lines)
     '()
-    (lazy-cat (read-int-line (first lines))
-              (read-int-lines (rest lines)))))
+    (concat (read-int-line (first lines))
+            (lazy-seq (read-int-lines (rest lines))))))
 
 (defn read-int-file
   "Parse file containing line(s) of space-separated integers"
   [filename]
   (read-int-lines (read-lines filename)))
+
+;
+; Read file where each line is a sequence of comma separated n-grams
+;
 
 (defn tok-trim
   "Given string, return seq of trimmed strings split on whitespace"
@@ -52,3 +48,15 @@ Misc file/text/io functions
   [filename]
   (for [line (read-lines filename)]
     (map tok-trim (split #"," line))))
+
+;
+; Write java matrix out to text file
+;
+
+(defn write-matrix-java 
+  "Assume mat is double[][], write out to filename (one row / line)"
+  [mat filename]
+  (write-lines filename
+               (for [row (seq mat)]
+                 (apply str (interpose " " (map (partial format "%f") 
+                                                (seq row)))))))

@@ -53,7 +53,7 @@
   (let [lines (filter not-blank? (drop 3 (read-lines labelfn)))]    
     (construct-vecmap (map get-word-label lines))))
 
-; TESTCODEE
+; TESTCODE
 ;  
 ;(let [labelfn "labels/0.labelled.txt"
 ;      labels (read-label-file labelfn)]  

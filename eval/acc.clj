@@ -4,7 +4,8 @@
 
 )
 
-(ns posthoc.eval.acc)
+(ns posthoc.eval.acc
+  (:use [clojure.contrib.generic.math-functions :only (sqr)]))
 
 (defn arithmetic-mean 
   [vals] 
