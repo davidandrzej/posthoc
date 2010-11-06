@@ -118,7 +118,6 @@ General convenience/utility functions
      (apply str (interpose "\n\n"  (map (partial str-vecmap-keyval vecmap)
                                         ks)))))
 
-
 ;
 ; Regex helpers
 ;
@@ -131,17 +130,6 @@ General convenience/utility functions
   "Sort strings like Topic 0, Topic 2, etc by index"
   [re strings]
   (sort-by #(Integer/parseInt (nth-match re %1 1)) strings))
-
-;
-; Is there a standard API way to do this?
-;
-(defn take-pairs
-  "Given a seq, return lazy seq of adjacent (non-overlapping) pairs"
-  [vals]
-  (if (empty? vals)
-    '()
-    (cons (vec (take 2 vals))
-	  (lazy-seq (take-pairs (drop 2 vals))))))
 
 ;
 ; Find value sequences in Java arrays

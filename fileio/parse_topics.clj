@@ -22,9 +22,9 @@
 (defn read-groups
   "Process lines into seq of (group header line, word lines) pairs"
   [group-re lines]
-  (take-pairs (partition-by (partial re-matches group-re) 
-                            (drop-while #(not (re-matches group-re %1))
-                                              lines))))
+  (partition 2 (partition-by (partial re-matches group-re) 
+                             (drop-while #(not (re-matches group-re %1))
+                                         lines))))
 
 
 ;
