@@ -99,9 +99,12 @@
   "Do sentence exclusion posthoc and output report files"
   [basefn]
   (let [vocab (read-words (format "%s.vocab" basefn))
-        w (read-int-file (format "%s.words" basefn))
-        s (read-int-file (format "%s.sent" basefn))
-        z (read-int-file (format "%s.sample" basefn))        
+        w (map #(Integer/parseInt %1)
+               (read-tok-file (format "%s.words" basefn)))
+        s (map #(Integer/parseInt %1)
+               (read-int-file (format "%s.sent" basefn)))
+        z (map #(Integer/parseInt %1)
+               read-int-file (format "%s.sample" basefn)))
         allidx (map (partial struct idx) s z w) ; All corpus indices
         allco (find-all-co-occur allidx) ; Get co-occurrences 
         cocts (record-co-occur allco vocab)] ; Map by excludee topic
